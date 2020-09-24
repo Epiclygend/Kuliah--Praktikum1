@@ -36,6 +36,7 @@ public final class Keramik extends BahanBangunan {
     /**
      * @return harga
      */
+    @Override
     public float getHarga() {
         return hargaPerBox / this.isiPerBox;
     }
@@ -45,6 +46,7 @@ public final class Keramik extends BahanBangunan {
      * 
      * @param harga
      */
+    @Override
     public void setHarga(int harga) {
         this.hargaPerBox = harga;
         this.isiPerBox = 1;
