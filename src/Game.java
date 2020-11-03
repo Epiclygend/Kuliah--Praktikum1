@@ -1,12 +1,12 @@
 import java.util.Random;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Game {
     private Scanner input;
     private int whatGuess;
-    private int guessed;
     private int scoreInit = 100;
-    private int tries = 0;
+    private ArrayList<Integer> tries = new ArrayList<>();
     int score = 0;
     private int bonusPoint = 50;
     private boolean isReceivedBonus = false;
@@ -54,7 +54,7 @@ public class Game {
             System.out.print("Tebak angka\t= ");
 
             try {
-                guessed = input.nextInt();
+                tries.add(input.nextInt());
                 break;
             } catch (Exception e) {
                 System.err.println("Something error! Please try again!");
@@ -62,8 +62,10 @@ public class Game {
                 continue;
             }
         }
+    }
 
-        tries++;
+    private int getGuessed() {
+        return tries.get(tries.size() - 1);
     }
 
     private void whenGuessedWrong() {
@@ -73,16 +75,16 @@ public class Game {
     }
 
     private boolean isGuessedWrong() {
-        if (guessed > whatGuess)
+        if (getGuessed() > whatGuess)
             System.err.println("Salah! tebakan anda terlalu besar!");
-        else if (guessed < whatGuess)
+        else if (getGuessed() < whatGuess)
             System.err.println("Salah! tebakan anda terlalu kecil!");
 
-        return whatGuess != guessed;
+        return whatGuess != getGuessed();
     }
 
     private void claimBonus() {
-        if (tries <= 5) {
+        if (tries.size() <= 5) {
             isReceivedBonus = true;
             score = score + bonusPoint;
         }
@@ -91,8 +93,8 @@ public class Game {
     public void printGameStats() {
         System.out.println("\t-------Game-stats-------");
         System.out.println("Skor awal\t= " + scoreInit);
-        System.out.println("Jumlah tebakan\t= " + tries);
+        System.out.println("Jumlah tebakan\t= " + tries.size());
         System.out.println(isReceivedBonus ? "+ bonus(" + bonusPoint + ")" : "");
-        System.out.println("Skor akhir anda\t= " + score);
+        System.out.println("Skor akhir anda\t= " + score);        
     }
 }
