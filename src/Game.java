@@ -36,7 +36,7 @@ public class Game {
         // Set game input
         input = new Scanner(System.in);
         // Set initial score
-        score = score + scoreInit;
+        score += scoreInit;
         // Send message when game is ready!
         System.out.println("Game Dimulai!");
     }
@@ -95,6 +95,6 @@ public class Game {
         System.out.println("Skor awal\t= " + scoreInit);
         System.out.println("Jumlah tebakan\t= " + tries.size());
         System.out.println(isReceivedBonus ? "+ bonus(" + bonusPoint + ")" : "");
-        System.out.println("Skor akhir anda\t= " + score);        
+        System.out.println("Skor akhir anda\t= " + score);
     }
 }
