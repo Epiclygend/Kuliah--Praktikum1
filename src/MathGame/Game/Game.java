@@ -5,7 +5,7 @@ import MathGame.Utils;
 
 public abstract class Game {
     protected User user;
-    private int level = 1;
+    protected int level = 1;
 
     protected abstract String getOperator();
 
@@ -24,22 +24,20 @@ public abstract class Game {
 
         System.out.println("Game over!");
         System.out.println(Utils.squareBracket(user.name));
-        System.out.println(Utils.squareBracket(user.score+""));
-        System.out.println(Utils.squareBracket(user.lives+""));
+        System.out.println(Utils.squareBracket("final score: "+user.score+""));
     }
 
     final private void play() {
-        final int numb1 = this.generateNumb();
-        final int numb2 = this.generateNumb();
+        final int[] numbQuiz = generateNumbQuiz();
 
         while (true) {
             if (user.lives > 0) {
 
                 System.out.println();
-                System.out.println(getPrintableQuestion(numb1, numb2));
+                System.out.println(getPrintableQuestion(numbQuiz[0], numbQuiz[1]));
                 int answer = Utils.inputInteger("Jawab: ");
 
-                if (this.assertAnswerIsCorrect(answer, numb1, numb2)) {
+                if (this.assertAnswerIsCorrect(answer, numbQuiz[0], numbQuiz[1])) {
                     this.whenAnswerIsCorrect();
                     break;
 
@@ -54,18 +52,13 @@ public abstract class Game {
         }
     }
 
-    final private int generateNumb() {
-        final int range = 10;
-        final int generated = Utils.randGenerator.nextInt(range + 1);
+    protected int[] generateNumbQuiz() {
+        int[] generated = {
+            this.generateNumb(),
+            this.generateNumb()
+        };
 
-        switch (this.level) {
-            case 2:
-                return -generated;
-            case 3:
-                return generated * (Utils.generateRandomBoolean() ? 1 : -1);
-            default:
-                return generated;
-        }
+        return generated;
     }
 
     protected void whenAnswerIsCorrect() {
@@ -98,6 +91,20 @@ public abstract class Game {
         System.out.print(Utils.squareBracket("Lives: " + user.lives));
         System.out.print(Utils.squareBracket("Level: " + this.level));
         System.out.println();
+    }
+
+    final private int generateNumb() {
+        final int range = 10;
+        final int generated = Utils.randGenerator.nextInt(range + 1);
+
+        switch (this.level) {
+            case 2:
+                return -generated;
+            case 3:
+                return generated * (Utils.generateRandomBoolean() ? 1 : -1);
+            default:
+                return generated;
+        }
     }
 
     final protected String correctAnswerResponse() {
