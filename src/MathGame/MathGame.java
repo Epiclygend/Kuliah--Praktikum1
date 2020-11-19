@@ -3,14 +3,17 @@ package MathGame;
 import MathGame.Game.*;
 
 public class MathGame {
-
     public static void main(String[] args) {
         User user = new User(Utils.inputString("Mohon masukkan nama anda: "));
+        System.out.println();
+
         try {
             Game game = MathGame.getGame(user);
 
             game.start();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private static Game getGame(User user) throws Exception {
@@ -32,6 +35,7 @@ public class MathGame {
                 throw new GameExit();
 
             default:
+                System.err.println(pilihan + " tidak tersedia, silahkan pilih menu yang lain");
                 return getGame(user);
         }
     }

@@ -5,7 +5,7 @@ import MathGame.Utils;
 
 public abstract class Game {
     protected User user;
-    private int level;
+    private int level = 1;
 
     protected abstract String getOperator();
 
@@ -16,27 +16,42 @@ public abstract class Game {
     }
 
     public void start() {
+        System.out.println("=============");
+        System.out.println("GAME DIMULAI!");
+        System.out.println("=============");
+
         this.play();
 
         System.out.println("Game over!");
-        System.out.println(user.name);
-        System.out.println(user.score);
-        System.out.println(user.lives);
+        System.out.println(Utils.squareBracket(user.name));
+        System.out.println(Utils.squareBracket(user.score+""));
+        System.out.println(Utils.squareBracket(user.lives+""));
     }
 
     final private void play() {
         final int numb1 = this.generateNumb();
         final int numb2 = this.generateNumb();
-        int answer;
 
-        do {
-            System.out.println(getPrintableQuestion(numb1, numb2));
-            answer = Utils.inputInteger("Jawab: ");
+        while (true) {
+            if (user.lives > 0) {
 
-            this.whenAnswerIsWrong();
-        } while (!this.assertAnswerIsCorrect(answer, numb1, numb2));
+                System.out.println();
+                System.out.println(getPrintableQuestion(numb1, numb2));
+                int answer = Utils.inputInteger("Jawab: ");
 
-        this.whenAnswerIsCorrect();
+                if (this.assertAnswerIsCorrect(answer, numb1, numb2)) {
+                    this.whenAnswerIsCorrect();
+                    break;
+
+                } else
+                    this.whenAnswerIsWrong();
+
+            } else {
+                this.whenNoMoreLives();
+                break;
+            }
+
+        }
     }
 
     final private int generateNumb() {
@@ -56,6 +71,11 @@ public abstract class Game {
     protected void whenAnswerIsCorrect() {
         this.user.score += 5;
 
+        // Level check
+        if (user.score > 100)
+            this.level = 2;
+        else if (user.score > 200)
+            this.level = 3;
         this.answerResponse(this.correctAnswerResponse());
         this.play();
     }
@@ -67,8 +87,13 @@ public abstract class Game {
         this.answerResponse(this.wrongAnswerResponse());
     }
 
+    protected void whenNoMoreLives() {
+        System.out.println("Hai " + user.name + ", jangan menyerah!");
+    }
+
     protected void answerResponse(String message) {
-        System.out.print(Utils.squareBracket(message));
+        System.out.print(message);
+        System.out.println();
         System.out.print(Utils.squareBracket("Skor: " + user.score));
         System.out.print(Utils.squareBracket("Lives: " + user.lives));
         System.out.print(Utils.squareBracket("Level: " + this.level));
