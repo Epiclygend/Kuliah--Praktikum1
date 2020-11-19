@@ -16,15 +16,9 @@ public abstract class Game {
     }
 
     public void start() {
-        System.out.println("=============");
-        System.out.println("GAME DIMULAI!");
-        System.out.println("=============");
-
+        this.whenGameStarted();
         this.play();
-
-        System.out.println("Game over!");
-        System.out.println(Utils.squareBracket(user.name));
-        System.out.println(Utils.squareBracket("final score: " + user.score));
+        this.whenGameOver();
     }
 
     final private void play() {
@@ -32,18 +26,23 @@ public abstract class Game {
 
         while (true) {
             if (user.lives > 0) {
+                if (this.level < 3) {
 
-                System.out.println();
-                System.out.println(getPrintableQuestion(quizNumb[0], quizNumb[1]));
-                int answer = Utils.inputInteger("Jawab: ");
+                    System.out.println();
+                    System.out.println(getPrintableQuestion(quizNumb[0], quizNumb[1]));
+                    int answer = Utils.inputInteger("Jawab: ");
 
-                if (this.assertAnswerIsCorrect(answer, quizNumb[0], quizNumb[1])) {
-                    this.whenAnswerIsCorrect();
+                    if (this.assertAnswerIsCorrect(answer, quizNumb[0], quizNumb[1])) {
+                        this.whenAnswerIsCorrect();
+                        break;
+
+                    } else
+                        this.whenAnswerIsWrong();
+
+                } else {
+                    this.whenUserCompletedTheGame();
                     break;
-
-                } else
-                    this.whenAnswerIsWrong();
-
+                }
             } else {
                 this.whenNoMoreLives();
                 break;
@@ -53,12 +52,15 @@ public abstract class Game {
     }
 
     protected int[] generateQuizNumb() {
-        int[] generated = {
-            this.generateNumb(),
-            this.generateNumb()
-        };
+        int[] generated = { this.generateNumb(), this.generateNumb() };
 
         return generated;
+    }
+
+    protected void whenGameStarted() {
+        System.out.println("=============");
+        System.out.println("GAME DIMULAI!");
+        System.out.println("=============");
     }
 
     protected void whenAnswerIsCorrect() {
@@ -82,6 +84,17 @@ public abstract class Game {
 
     protected void whenNoMoreLives() {
         System.out.println("Hai " + user.name + ", jangan menyerah!");
+    }
+
+    protected void whenUserCompletedTheGame() {
+        System.out.println("Selamat " + user.name
+                + ", Anda telah menyelesaikan quiz ini dengan baik. Silahkan mencoba tantangan yang lain ya...");
+    }
+
+    protected void whenGameOver() {
+        System.out.println("Game over!");
+        System.out.println(Utils.squareBracket(user.name));
+        System.out.println(Utils.squareBracket("final score: " + user.score));
     }
 
     protected void answerResponse(String message) {
