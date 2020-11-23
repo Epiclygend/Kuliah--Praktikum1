@@ -19,15 +19,14 @@ public abstract class Game {
 
     public void start() throws GameExit {
         this.whenGameStarted();
-        this.play();
-        this.whenGameOver();
+        this.doQuiz();
     }
 
     final public int getScoreResult() {
         return gameScore;
     }
 
-    final private void play() throws GameExit {
+    final private void doQuiz() throws GameExit {
         final int[] quizNumb = this.generateQuizNumb();
 
         while (true) {
@@ -80,15 +79,15 @@ public abstract class Game {
             this.level = 3;
         else if (this.gameScore > 100)
             this.level = 2;
-        this.answerResponse(this.correctAnswerResponse());
-        this.play();
+        this.answerResponse("Selamat " + user.name + ", anda benar!");
+        this.doQuiz();
     }
 
     protected void whenAnswerIsWrong() {
         this.gameScore -= 2;
         this.user.lives -= 1;
 
-        this.answerResponse(this.wrongAnswerResponse());
+        this.answerResponse("yaah salah :(");
     }
 
     protected void whenNoMoreLives() throws GameExit {
@@ -100,9 +99,6 @@ public abstract class Game {
     protected void whenUserCompletedTheGame() {
         System.out.println("Selamat " + user.name
                 + ", Anda telah menyelesaikan quiz ini dengan baik. Silahkan mencoba tantangan yang lain ya...");
-    }
-
-    protected void whenGameOver() {
     }
 
     protected void answerResponse(String message) {
@@ -126,14 +122,6 @@ public abstract class Game {
             default:
                 return generated;
         }
-    }
-
-    final protected String correctAnswerResponse() {
-        return "Selamat " + user.name + ", anda benar!";
-    }
-
-    final protected String wrongAnswerResponse() {
-        return "yaah salah :(";
     }
 
     final private String printedNumber(Integer n) {
