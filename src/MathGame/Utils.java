@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Utils {
     private static Scanner userInput = new Scanner(System.in);
-    
+
     public static Random randGenerator = new Random();
 
     public static boolean generateRandomBoolean() {

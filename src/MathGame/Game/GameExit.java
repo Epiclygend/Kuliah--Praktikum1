@@ -6,5 +6,4 @@ public class GameExit extends Exception {
     public GameExit() {
         super("Game exited!");
     }
-
 }
