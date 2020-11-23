@@ -67,10 +67,10 @@ public abstract class Game {
         this.user.score += 5;
 
         // Level check
-        if (user.score > 100)
-            this.level = 2;
-        else if (user.score > 200)
+        if (user.score > 200)
             this.level = 3;
+        else if (user.score > 100)
+            this.level = 2;
         this.answerResponse(this.correctAnswerResponse());
         this.play();
     }
