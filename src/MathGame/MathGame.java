@@ -8,15 +8,19 @@ public class MathGame {
         System.out.println();
 
         try {
-            Game game = MathGame.getGame(user);
-
-            game.start();
+            while (true) {
+                Game game = MathGame.getGame(user);
+                game.start();
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
+        System.out.println("Stats for user " + user.name);
+        System.out.println(user);
     }
 
-    private static Game getGame(User user) throws Exception {
+    private static Game getGame(User user) throws GameExit {
         System.out.println("Menu:");
         System.out.println("1. Penjumlahan");
         System.out.println("2. Pengurangan");
