@@ -26,7 +26,7 @@ public abstract class Game {
 
         while (true) {
             if (user.lives > 0) {
-                if (this.level < 3) {
+                if (user.score <= 300) {
 
                     System.out.println();
                     System.out.println(getPrintableQuestion(quizNumb[0], quizNumb[1]));
