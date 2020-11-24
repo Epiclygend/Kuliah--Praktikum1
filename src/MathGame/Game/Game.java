@@ -53,11 +53,6 @@ public abstract class Game {
         }
     }
 
-    public void printGameStats() {
-        System.out.println(Utils.squareBracket(user.name));
-        System.out.println(Utils.squareBracket("final score: " + this.gameScore));
-    }
-
     protected int[] generateQuizNumb() {
         int[] generated = { this.generateNumb(), this.generateNumb() };
 
