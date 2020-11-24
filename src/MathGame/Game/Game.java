@@ -1,7 +1,6 @@
 package MathGame.Game;
 
-import MathGame.User;
-import MathGame.Utils;
+import MathGame.*;
 
 public abstract class Game {
     protected User user;
@@ -33,7 +32,6 @@ public abstract class Game {
             if (user.lives > 0) {
                 if (this.gameScore <= 300) {
 
-                    System.out.println();
                     System.out.println(getPrintableQuestion(quizNumb[0], quizNumb[1]));
                     int answer = Utils.inputInteger("Jawab: ");
 
@@ -67,13 +65,13 @@ public abstract class Game {
     }
 
     protected void whenGameStarted() {
-        System.out.println("=============");
-        System.out.println("GAME DIMULAI!");
-        System.out.println("=============");
+        System.out.println("=".repeat(MathGame.maxLengthString));
+        System.out.println(Utils.padCenter("GAME DIMULAI!", MathGame.maxLengthString));
+        System.out.println("=".repeat(MathGame.maxLengthString));
     }
 
     protected void whenAnswerIsCorrect() throws GameExit {
-        this.gameScore += 5;
+        this.gameScore += MathGame.scoreIncrement;
         // Level check
         if (this.gameScore > 200)
             this.level = 3;
@@ -84,7 +82,7 @@ public abstract class Game {
     }
 
     protected void whenAnswerIsWrong() {
-        this.gameScore -= 2;
+        this.gameScore -= MathGame.scoreDecrement;
         this.user.lives -= 1;
 
         this.answerResponse("yaah salah :(");
@@ -97,16 +95,19 @@ public abstract class Game {
     }
 
     protected void whenUserCompletedTheGame() {
+        System.out.println("=".repeat(MathGame.maxLengthString));
         System.out.println("Selamat " + user.name
                 + ", Anda telah menyelesaikan quiz ini dengan baik. Silahkan mencoba tantangan yang lain ya...");
+        System.out.println("=".repeat(MathGame.maxLengthString));
     }
 
     protected void answerResponse(String message) {
-        System.out.print(message);
+        System.out.print("Message: " + message);
         System.out.println();
         System.out.print(Utils.squareBracket("Skor: " + this.gameScore));
         System.out.print(Utils.squareBracket("Lives: " + user.lives));
         System.out.print(Utils.squareBracket("Level: " + this.level));
+        System.out.println();
         System.out.println();
     }
 

@@ -28,4 +28,15 @@ public class User {
     public void playAGame(Game game) {
         gamePlayed.add(game);
     }
+
+    public void printGameStats() {
+        System.out.println(Utils.padCenter("Game stats for: " + this.name, MathGame.maxLengthString));
+        gamePlayed.forEach((game) -> {
+            System.out.println("=".repeat(MathGame.maxLengthString));
+            System.out.println("Game: " + game.getClass().getSimpleName());
+            System.out.println("Score: " + game.getScoreResult());
+        });
+        System.out.println("=".repeat(MathGame.maxLengthString));
+        System.out.println(Utils.padLeft("Final Score: " + this.getScore(), MathGame.maxLengthString));
+    }
 }

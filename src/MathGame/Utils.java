@@ -20,6 +20,18 @@ public class Utils {
         return "[" + text + "]";
     }
 
+    public static String padRight(String text, int n) {
+        return String.format("%-" + n + "s", text);
+    }
+
+    public static String padLeft(String text, int n) {
+        return String.format("%" + n + "s", text);
+    }
+
+    public static String padCenter(String text, int n) {
+        return Utils.padRight(Utils.padLeft(text, n / 2), n);
+    }
+
     public static String inputString(String message) {
         while (true) {
             System.out.print(message);
