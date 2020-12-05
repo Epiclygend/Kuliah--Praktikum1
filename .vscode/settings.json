@@ -1,0 +1,14 @@
+{
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    },
+    "editor.fontSize": 15,
+    "workbench.colorTheme": "Community Material Theme Darker High Contrast",
+    "workbench.colorCustomizations": {
+        "tab.inactiveForeground": "#fff8"
+    },
+    "java.project.exportJar.targetPath":"askUser",
+}
