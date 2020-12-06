@@ -1,26 +1,40 @@
 package MahasiswaDB;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.BiConsumer;
+
 /**
  * MahasiswaDB
  */
 public class MahasiswaDB {
-    final Collection<Mahasiswa> mahasiswaCollection = new Collection<Mahasiswa>();
+    final static Collection<Mahasiswa> mahasiswaCollection = new Collection<Mahasiswa>();
+    final static List<BiConsumer<Runnable, Runnable>> menus = Arrays.asList(
+        Command::exit,
+        Command::createMahasiswa,
+        Command::deleteMahasiswa,
+        Command::findByGender,
+        Command::findByNim,
+        Command::showData
+    );
 
-    public static void main(String[] args) throws MahasiswaDB.Command.Exit {
+    public static void main(String[] args){
+        MahasiswaDB.toMainMenu();
+    }
+
+    public static void toMainMenu() {
+        MahasiswaDB.showMenu();
+
         try {
-            while (true) {
-                MahasiswaDB.showMenu();
+            MahasiswaDB.menus.get(Utils.inputInteger("Pilih menu: ")).accept(MahasiswaDB::toMainMenu, MahasiswaDB::exitProgram);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Invalid Command! Please input available menu!");
+            MahasiswaDB.toMainMenu();
+        }
+    }
 
-                switch (Utils.inputInteger("Pilih menu: ")) {
-                    case 0:
-                        throw new Command.Exit();
-
-                    default:
-                        System.out.println("Invalid Command! Please input available menu!");
-                        break;
-                }
-            }
-        } catch (Command.Exit e) { System.err.println(e.getMessage()); }
+    public static void exitProgram() {
+        System.out.println("Program Exited!");
     }
 
     public static void showMenu() {
@@ -33,7 +47,7 @@ public class MahasiswaDB {
     }
 
     public static class Command {
-        public static Mahasiswa createMahasiswa() {
+        public static void createMahasiswa(Runnable next, Runnable exit) {
             final Mahasiswa data = new Mahasiswa();
 
             data.nim = Utils.inputString("Input NIM");
@@ -42,31 +56,29 @@ public class MahasiswaDB {
                 data.gender = Utils.inputInteger("Input Gender (0/1)");
             while (Mahasiswa.validateGender(data.gender));
 
-            return data;
+            MahasiswaDB.mahasiswaCollection.add(data);
+
+            next.run();
         }
 
-        public static void deleteMahasiswa() {
-
+        public static void deleteMahasiswa(Runnable next, Runnable exit) {
+            next.run();
         }
 
-        public static void findByGender() {
-
+        public static void findByGender(Runnable next, Runnable exit) {
+            next.run();
         }
 
-        public static void findByNim() {
-
+        public static void findByNim(Runnable next, Runnable exit) {
+            next.run();
         }
 
-        public static void showData() {
-
+        public static void showData(Runnable next, Runnable exit) {
+            next.run();
         }
 
-        public static class Exit extends Exception {
-            private static final long serialVersionUID = 7769507698565750826L;
-
-            public Exit() {
-                super("Program Exited!");
-            }
+        public static void exit(Runnable next, Runnable exit) {
+            exit.run();
         }
     }
 }
