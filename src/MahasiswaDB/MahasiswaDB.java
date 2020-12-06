@@ -42,12 +42,14 @@ public class MahasiswaDB {
     }
 
     public static void showMenu() {
+        Utils.drawSeparator();
         System.out.println("Silahkan pilih menu berikut: (Mohon masukkan angka saja)");
         for (int i = 0; i < MENU.size(); i++)
             System.out.println(i + ". " + MENU.get(i).title);
     }
 
     public static void createMahasiswa(Runnable next, Runnable exit) {
+        Utils.drawSeparator();
         final Mahasiswa newMahasiswa = MahasiswaCLI.createMahasiswa().mahasiswaInstance;
 
         MAHASISWA_COLLECTION.add(newMahasiswa);
@@ -58,10 +60,12 @@ public class MahasiswaDB {
     }
 
     public static void deleteMahasiswa(Runnable next, Runnable exit) {
+        Utils.drawSeparator();
         next.run();
     }
 
     public static void findByGender(Runnable next, Runnable exit) {
+        Utils.drawSeparator();
         System.out.println("Cari mahasiswa dengan Gender");
         final int genderSearch = Utils.inputInteger("Masukkan kode gender untuk dicari (0/1)\t= ");
 
@@ -76,6 +80,7 @@ public class MahasiswaDB {
     }
 
     public static void findByNim(Runnable next, Runnable exit) {
+        Utils.drawSeparator();
         System.out.println("Cari mahasiswa dengan NIM");
         final String nimSearch = Utils.inputString("Masukkan NIM untuk dicari\t= ");
 
@@ -90,11 +95,13 @@ public class MahasiswaDB {
     }
 
     public static void showData(Runnable next, Runnable exit) {
+        Utils.drawSeparator();
         MAHASISWA_COLLECTION.printAll();
         next.run();
     }
 
     public static void exit(Runnable next, Runnable exit) {
+        Utils.drawSeparator();
         exit.run();
     }
 

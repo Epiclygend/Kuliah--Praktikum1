@@ -32,6 +32,7 @@ public class Mahasiswa implements Collectable {
     }
 
     public void print() {
+        Utils.drawSeparator();
         System.out.println("NIM\t\t: " + nim);
         System.out.println("Nama\t\t: " + nama);
         System.out.println("Tanggal Lahir\t: " + getFormattedTglLahir());

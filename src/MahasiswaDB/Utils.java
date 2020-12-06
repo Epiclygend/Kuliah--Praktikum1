@@ -3,7 +3,16 @@ package MahasiswaDB;
 import java.util.Scanner;
 
 public class Utils {
+    final static int TEXT_MAXLENGTH = 100;
     public static Scanner userInput = new Scanner(System.in);
+
+    public static void drawSeparator(int count) {
+        System.out.println("-".repeat(count));
+    }
+
+    public static void drawSeparator() {
+        drawSeparator(TEXT_MAXLENGTH);
+    }
 
     public static String inputString(String message) {
         System.out.print(message);

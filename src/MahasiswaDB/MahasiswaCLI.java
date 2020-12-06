@@ -40,15 +40,17 @@ public class MahasiswaCLI {
     }
 
     public void setTanggalLahirMahasiswa() {
+        Utils.drawSeparator();
         System.out.println("Masukkan Tanggal Lahir:");
-
+        
         final int DD = Utils.inputInteger("DD\t= ");
         final int MM = Utils.inputInteger("MM\t= ");
         final int YYYY = Utils.inputInteger("YYYY\t= ");
 
         mahasiswaInstance.tglLahir = Mahasiswa.parseTglLahir(DD, MM, YYYY);
-
+        
         final String confirmMessage = "Apakah anda yakin tanggal ini benar? " + mahasiswaInstance.getFormattedTglLahir();
+        Utils.drawSeparator();
         if (!Utils.inputConfirm(confirmMessage))
             this.setTanggalLahirMahasiswa();
     }
