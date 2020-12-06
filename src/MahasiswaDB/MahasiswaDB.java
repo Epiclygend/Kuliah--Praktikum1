@@ -67,9 +67,10 @@ public class MahasiswaDB {
         next.run();
     }
 
-        public static void showData(Runnable next, Runnable exit) {
-            next.run();
-        }
+    public static void showData(Runnable next, Runnable exit) {
+        MAHASISWA_COLLECTION.printAll();
+        next.run();
+    }
 
     public static void exit(Runnable next, Runnable exit) {
         exit.run();

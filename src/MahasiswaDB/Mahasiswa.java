@@ -9,7 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class Mahasiswa implements HasID {
+public class Mahasiswa implements Collectable {
     String nim;
     String nama;
     Date tglLahir;
@@ -29,6 +29,13 @@ public class Mahasiswa implements HasID {
         final LocalDate toLocalDate = LocalDate.ofInstant(tglLahir.toInstant(), ZoneId.systemDefault());
 
         return toLocalDate.format(formatter);
+    }
+
+    public void print() {
+        System.out.println("NIM\t\t: " + nim);
+        System.out.println("Nama\t\t: " + nama);
+        System.out.println("Tanggal Lahir\t: " + getFormattedTglLahir());
+        System.out.println("Jenis Kelamin\t: " + getGenderString());
     }
 
     public static void validateGender(int input) throws InvalidGenderChoice {
