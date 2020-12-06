@@ -3,6 +3,8 @@ package MahasiswaDB;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
  * MahasiswaDB
@@ -10,11 +12,11 @@ import java.util.function.BiConsumer;
 public class MahasiswaDB {
     final static Collection<Mahasiswa> MAHASISWA_COLLECTION = new Collection<Mahasiswa>();
     final static List<Command> MENU = Arrays.asList(
-            new Command("Exit", MahasiswaDB::exit), 
+            new Command("Exit", MahasiswaDB::exit),
             new Command("Tambah Mahasiswa", MahasiswaDB::createMahasiswa),
-            new Command("Hapus Mahasiswa", MahasiswaDB::deleteMahasiswa), 
-            new Command("Cari Mahasiswa (by Gender)", MahasiswaDB::findByGender), 
-            new Command("Cari Mahasiswa (by NIM)", MahasiswaDB::findByNim), 
+            new Command("Hapus Mahasiswa", MahasiswaDB::deleteMahasiswa),
+            new Command("Cari Mahasiswa (by Gender)", MahasiswaDB::findByGender),
+            new Command("Cari Mahasiswa (by NIM)", MahasiswaDB::findByNim),
             new Command("Tampil Mahasiswa", MahasiswaDB::showData)
         );
 
@@ -60,10 +62,30 @@ public class MahasiswaDB {
     }
 
     public static void findByGender(Runnable next, Runnable exit) {
+        System.out.println("Cari mahasiswa dengan Gender");
+        final int genderSearch = Utils.inputInteger("Masukkan kode gender untuk dicari (0/1)\t= ");
+
+        final Supplier<Stream<Mahasiswa>> searchResult = () -> MAHASISWA_COLLECTION.filter(mahasiswa -> mahasiswa.gender == genderSearch);
+        if (searchResult.get().count() > 0) {
+            System.out.println("Data mahasiswa ditemukan!");
+            searchResult.get().forEach(mahasiswa -> mahasiswa.print());
+        } else
+            System.out.println("Mohon maaf, Data yang dicari tidak ditemukan!");
+
         next.run();
     }
 
     public static void findByNim(Runnable next, Runnable exit) {
+        System.out.println("Cari mahasiswa dengan NIM");
+        final String nimSearch = Utils.inputString("Masukkan NIM untuk dicari\t= ");
+
+        final Supplier<Stream<Mahasiswa>> searchResult = () -> MAHASISWA_COLLECTION.filter(mahasiswa -> mahasiswa.nim.equals(nimSearch));
+        if (searchResult.get().count() > 0) {
+            System.out.println("Data mahasiswa ditemukan!");
+            searchResult.get().forEach(mahasiswa -> mahasiswa.print());
+        } else
+            System.out.println("Mohon maaf, Data yang dicari tidak ditemukan!");
+
         next.run();
     }
 
@@ -75,10 +97,11 @@ public class MahasiswaDB {
     public static void exit(Runnable next, Runnable exit) {
         exit.run();
     }
-    
+
     static public class Command {
         final String title;
         final BiConsumer<Runnable, Runnable> action;
+
         public Command(String title, BiConsumer<Runnable, Runnable> action) {
             this.title = title;
             this.action = action;
