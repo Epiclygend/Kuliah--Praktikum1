@@ -3,33 +3,24 @@ package MahasiswaDB;
 import java.util.Scanner;
 
 public class Utils {
-    private static Scanner userInput = new Scanner(System.in);
-    
-    public static String inputString(String message) {
-        while (true) {
-            System.out.print(message);
+    public static Scanner userInput = new Scanner(System.in);
 
-            try {
-                return userInput.nextLine();
-            } catch (Exception e) {
-                System.err.println("Something error! Please try again!");
-                userInput.next();
-                continue;
-            }
-        }
+    public static String inputString(String message) {
+        System.out.print(message);
+
+        return userInput.next();
     }
 
     public static Integer inputInteger(String message) {
-        while (true) {
-            System.out.print(message);
+        System.out.print(message);
 
-            try {
-                return userInput.nextInt();
-            } catch (Exception e) {
-                System.err.println("Something error! Please try again!");
-                userInput.next();
-                continue;
-            }
+        try {
+            final Integer input = userInput.nextInt();
+            return input;
+        } catch (Exception e) {
+            System.err.println("Something error! Please try again!");
+            userInput.next();
+            return Utils.inputInteger(message);
         }
     }
 }
