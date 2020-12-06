@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
 
+import MahasiswaDB.Mahasiswa.InvalidGenderChoice;
+
 /**
  * MahasiswaDB
  */
@@ -26,7 +28,11 @@ public class MahasiswaDB {
         MahasiswaDB.showMenu();
 
         try {
-            MahasiswaDB.menus.get(Utils.inputInteger("Pilih menu: ")).accept(MahasiswaDB::toMainMenu, MahasiswaDB::exitProgram);
+            final int selection = Utils.inputInteger("Pilih menu: ");
+
+            MahasiswaDB.menus
+                .get(selection)
+                .accept(MahasiswaDB::toMainMenu, MahasiswaDB::exitProgram);
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Invalid Command! Please input available menu!");
             MahasiswaDB.toMainMenu();
@@ -50,13 +56,29 @@ public class MahasiswaDB {
         public static void createMahasiswa(Runnable next, Runnable exit) {
             final Mahasiswa data = new Mahasiswa();
 
-            data.nim = Utils.inputString("Input NIM");
-            data.nama = Utils.inputString("Input Nama");
-            do
-                data.gender = Utils.inputInteger("Input Gender (0/1)");
-            while (Mahasiswa.validateGender(data.gender));
+            data.nim = Utils.inputString("Input NIM\t= ");
+            data.nama = Utils.inputString("Input Nama\t= ");
+
+            do {
+                data.gender = Utils.inputInteger("Input Gender (0: Pria; 1: Wanita)= ");
+
+                try {
+                    Mahasiswa.validateGender(data.gender);
+                    break;
+                } catch (InvalidGenderChoice e) {
+                    System.err.println(e.getMessage());
+                }
+            } while (true);
+
+            System.out.println("Masukkan Tanggal Lahir:");
+            data.tglLahir = Mahasiswa.parseTglLahir(
+                    Utils.inputInteger("DD\t="),
+                    Utils.inputInteger("MM\t="),
+                    Utils.inputInteger("YYYY\t=")
+                );
 
             MahasiswaDB.mahasiswaCollection.add(data);
+            System.out.println("Berhasil menambahkan!");
 
             next.run();
         }
