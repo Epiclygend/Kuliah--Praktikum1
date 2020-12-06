@@ -23,4 +23,16 @@ public class Utils {
             return Utils.inputInteger(message);
         }
     }
+
+    public static boolean inputConfirm(String message) {
+        switch (Utils.inputString(message + " (Y/n)").toUpperCase()) {
+            case "Y":
+                return true;
+            case "N":
+                return false;
+
+            default:
+                return inputConfirm(message);
+        }
+    }
 }
