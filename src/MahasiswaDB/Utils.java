@@ -34,7 +34,7 @@ public class Utils {
     }
 
     public static boolean inputConfirm(String message) {
-        switch (Utils.inputString(message + " (Y/n)").toUpperCase()) {
+        switch (Utils.inputString(message + " (Y/n) ").toUpperCase()) {
             case "Y":
                 return true;
             case "N":

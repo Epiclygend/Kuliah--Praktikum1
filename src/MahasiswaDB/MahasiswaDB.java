@@ -2,7 +2,6 @@ package MahasiswaDB;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
 /**
@@ -11,12 +10,12 @@ import java.util.function.Predicate;
 public class MahasiswaDB {
     final static Collection<Mahasiswa> MAHASISWA_COLLECTION = new Collection<Mahasiswa>();
     final static List<Command> MENU = Arrays.asList(
-            new Command("Exit", MahasiswaDB::exit),
-            new Command("Tambah Mahasiswa", MahasiswaDB::createMahasiswa),
-            new Command("Hapus Mahasiswa", MahasiswaDB::deleteMahasiswa),
-            new Command("Cari Mahasiswa (by NIM)", MahasiswaDB::findByNim),
-            new Command("Cari Mahasiswa (by Gender)", MahasiswaDB::findByGender),
-            new Command("Tampil Mahasiswa", MahasiswaDB::showData)
+            new Command("Exit", MahasiswaDBCommand::exit),
+            new Command("Tambah Mahasiswa", MahasiswaDBCommand::createMahasiswa),
+            new Command("Hapus Mahasiswa", MahasiswaDBCommand::deleteMahasiswa),
+            new Command("Cari Mahasiswa (by NIM)", MahasiswaDBCommand::findByNim),
+            new Command("Cari Mahasiswa (by Gender)", MahasiswaDBCommand::findByGender),
+            new Command("Tampil Mahasiswa", MahasiswaDBCommand::showData)
         );
 
     public static void main(String[] args) {
@@ -47,92 +46,84 @@ public class MahasiswaDB {
             System.out.println(i + ". " + MENU.get(i).title);
     }
 
-    public static void createMahasiswa(Runnable next, Runnable exit) {
-        Utils.drawSeparator();
-        System.out.println("TAMBAH DATA MAHASISWA");
-        Utils.drawSeparator();
-        final Mahasiswa newMahasiswa = MahasiswaCLI.createMahasiswa().mahasiswaInstance;
+    static public class MahasiswaDBCommand {
+        public static void createMahasiswa(Runnable next, Runnable exit) {
+            Utils.drawSeparator();
+            System.out.println("TAMBAH DATA MAHASISWA");
+            Utils.drawSeparator();
+            final Mahasiswa newMahasiswa = MahasiswaCLI.createMahasiswa().mahasiswaInstance;
 
-        MAHASISWA_COLLECTION.add(newMahasiswa);
-        System.out.println("Berhasil ditambahkan!");
-        newMahasiswa.print();
+            MAHASISWA_COLLECTION.add(newMahasiswa);
+            System.out.println("Berhasil ditambahkan!");
+            newMahasiswa.print();
 
-        next.run();
-    }
-
-    public static void deleteMahasiswa(Runnable next, Runnable exit) {
-        Utils.drawSeparator();
-        System.out.println("HAPUS DATA MAHASISWA");
-        final String nimSearch = Utils.inputString("Masukkan NIM untuk dihapus\t= ");
-
-        try {
-            final List<Mahasiswa> searchResult = findMahasiswa.searchByNim(nimSearch);
-            searchResult.forEach(mahasiswa -> {
-                mahasiswa.print();
-
-                if (Utils.inputConfirm("Apakah kamu akan menghapus data ini?")) {
-                    MAHASISWA_COLLECTION.deleteById(mahasiswa.getId());
-                    Utils.drawSeparator();
-                    System.out.println(mahasiswa.getId() + " BERHASIL DIHAPUS!");
-                    Utils.drawSeparator();
-                }
-            });
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+            next.run();
         }
 
-        next.run();
-    }
+        public static void deleteMahasiswa(Runnable next, Runnable exit) {
+            Utils.drawSeparator();
+            System.out.println("HAPUS DATA MAHASISWA");
+            final String nimSearch = Utils.inputString("Masukkan NIM untuk dihapus\t= ");
 
-    public static void findByGender(Runnable next, Runnable exit) {
-        Utils.drawSeparator();
-        System.out.println("CARI MAHASISWA DENGAN GENDER");
-        final int genderSearch = Utils.inputInteger("Masukkan kode gender untuk dicari (0/1)\t= ");
+            try {
+                final List<Mahasiswa> searchResult = findMahasiswa.searchByNim(nimSearch);
+                searchResult.forEach(mahasiswa -> {
+                    mahasiswa.print();
 
-        try {
-            final List<Mahasiswa> searchResult = findMahasiswa.searchByGender(genderSearch);
-            searchResult.forEach(Mahasiswa::print);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+                    if (Utils.inputConfirm("Apakah kamu akan menghapus data ini?")) {
+                        MAHASISWA_COLLECTION.deleteById(mahasiswa.getId());
+                        Utils.drawSeparator();
+                        System.out.println(mahasiswa.getId() + " BERHASIL DIHAPUS!");
+                        Utils.drawSeparator();
+                    }
+                });
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
+
+            next.run();
         }
 
-        next.run();
-    }
+        public static void findByGender(Runnable next, Runnable exit) {
+            Utils.drawSeparator();
+            System.out.println("CARI MAHASISWA DENGAN GENDER");
+            final int genderSearch = Utils.inputInteger("Masukkan kode gender untuk dicari (0/1)\t= ");
 
-    public static void findByNim(Runnable next, Runnable exit) {
-        Utils.drawSeparator();
-        System.out.println("CARI MAHASISWA DENGAN NIM");
-        final String nimSearch = Utils.inputString("Masukkan NIM untuk dicari\t= ");
+            try {
+                final List<Mahasiswa> searchResult = findMahasiswa.searchByGender(genderSearch);
+                searchResult.forEach(Mahasiswa::print);
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
 
-        try {
-            final List<Mahasiswa> searchResult = findMahasiswa.searchByNim(nimSearch);
-            searchResult.forEach(Mahasiswa::print);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+            next.run();
         }
 
-        next.run();
-    }
+        public static void findByNim(Runnable next, Runnable exit) {
+            Utils.drawSeparator();
+            System.out.println("CARI MAHASISWA DENGAN NIM");
+            final String nimSearch = Utils.inputString("Masukkan NIM untuk dicari\t= ");
 
-    public static void showData(Runnable next, Runnable exit) {
-        Utils.drawSeparator();
-        System.out.println("DATA MAHASISWA");
-        MAHASISWA_COLLECTION.printAll();
-        next.run();
-    }
+            try {
+                final List<Mahasiswa> searchResult = findMahasiswa.searchByNim(nimSearch);
+                searchResult.forEach(Mahasiswa::print);
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
 
-    public static void exit(Runnable next, Runnable exit) {
-        Utils.drawSeparator();
-        exit.run();
-    }
+            next.run();
+        }
 
-    static public class Command {
-        final String title;
-        final BiConsumer<Runnable, Runnable> action;
+        public static void showData(Runnable next, Runnable exit) {
+            Utils.drawSeparator();
+            System.out.println("DATA MAHASISWA");
+            MAHASISWA_COLLECTION.printAll();
+            next.run();
+        }
 
-        public Command(String title, BiConsumer<Runnable, Runnable> action) {
-            this.title = title;
-            this.action = action;
+        public static void exit(Runnable next, Runnable exit) {
+            Utils.drawSeparator();
+            exit.run();
         }
     }
 
