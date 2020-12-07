@@ -62,6 +62,25 @@ public class MahasiswaDB {
 
     public static void deleteMahasiswa(Runnable next, Runnable exit) {
         Utils.drawSeparator();
+        System.out.println("HAPUS DATA MAHASISWA");
+        final String nimSearch = Utils.inputString("Masukkan NIM untuk dihapus\t= ");
+
+        try {
+            final List<Mahasiswa> searchResult = findMahasiswa.searchByNim(nimSearch);
+            searchResult.forEach(mahasiswa -> {
+                mahasiswa.print();
+
+                if (Utils.inputConfirm("Apakah kamu akan menghapus data ini?")) {
+                    MAHASISWA_COLLECTION.deleteById(mahasiswa.getId());
+                    Utils.drawSeparator();
+                    System.out.println(mahasiswa.getId() + " BERHASIL DIHAPUS!");
+                    Utils.drawSeparator();
+                }
+            });
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
         next.run();
     }
 

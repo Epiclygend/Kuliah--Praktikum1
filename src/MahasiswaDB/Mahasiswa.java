@@ -17,7 +17,7 @@ public class Mahasiswa implements Collectable {
 
     @Override
     public String getId() {
-        return this.getId();
+        return this.nim;
     }
 
     public String getGenderString() {
