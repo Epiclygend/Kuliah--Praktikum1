@@ -3,8 +3,7 @@ package MahasiswaDB;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
+import java.util.function.Predicate;
 
 /**
  * MahasiswaDB
@@ -15,8 +14,8 @@ public class MahasiswaDB {
             new Command("Exit", MahasiswaDB::exit),
             new Command("Tambah Mahasiswa", MahasiswaDB::createMahasiswa),
             new Command("Hapus Mahasiswa", MahasiswaDB::deleteMahasiswa),
-            new Command("Cari Mahasiswa (by Gender)", MahasiswaDB::findByGender),
             new Command("Cari Mahasiswa (by NIM)", MahasiswaDB::findByNim),
+            new Command("Cari Mahasiswa (by Gender)", MahasiswaDB::findByGender),
             new Command("Tampil Mahasiswa", MahasiswaDB::showData)
         );
 
@@ -50,6 +49,8 @@ public class MahasiswaDB {
 
     public static void createMahasiswa(Runnable next, Runnable exit) {
         Utils.drawSeparator();
+        System.out.println("TAMBAH DATA MAHASISWA");
+        Utils.drawSeparator();
         final Mahasiswa newMahasiswa = MahasiswaCLI.createMahasiswa().mahasiswaInstance;
 
         MAHASISWA_COLLECTION.add(newMahasiswa);
@@ -66,36 +67,37 @@ public class MahasiswaDB {
 
     public static void findByGender(Runnable next, Runnable exit) {
         Utils.drawSeparator();
-        System.out.println("Cari mahasiswa dengan Gender");
+        System.out.println("CARI MAHASISWA DENGAN GENDER");
         final int genderSearch = Utils.inputInteger("Masukkan kode gender untuk dicari (0/1)\t= ");
 
-        final Supplier<Stream<Mahasiswa>> searchResult = () -> MAHASISWA_COLLECTION.filter(mahasiswa -> mahasiswa.gender == genderSearch);
-        if (searchResult.get().count() > 0) {
-            System.out.println("Data mahasiswa ditemukan!");
-            searchResult.get().forEach(mahasiswa -> mahasiswa.print());
-        } else
-            System.out.println("Mohon maaf, Data yang dicari tidak ditemukan!");
+        try {
+            final List<Mahasiswa> searchResult = findMahasiswa.searchByGender(genderSearch);
+            searchResult.forEach(Mahasiswa::print);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
 
         next.run();
     }
 
     public static void findByNim(Runnable next, Runnable exit) {
         Utils.drawSeparator();
-        System.out.println("Cari mahasiswa dengan NIM");
+        System.out.println("CARI MAHASISWA DENGAN NIM");
         final String nimSearch = Utils.inputString("Masukkan NIM untuk dicari\t= ");
 
-        final Supplier<Stream<Mahasiswa>> searchResult = () -> MAHASISWA_COLLECTION.filter(mahasiswa -> mahasiswa.nim.equals(nimSearch));
-        if (searchResult.get().count() > 0) {
-            System.out.println("Data mahasiswa ditemukan!");
-            searchResult.get().forEach(mahasiswa -> mahasiswa.print());
-        } else
-            System.out.println("Mohon maaf, Data yang dicari tidak ditemukan!");
+        try {
+            final List<Mahasiswa> searchResult = findMahasiswa.searchByNim(nimSearch);
+            searchResult.forEach(Mahasiswa::print);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
 
         next.run();
     }
 
     public static void showData(Runnable next, Runnable exit) {
         Utils.drawSeparator();
+        System.out.println("DATA MAHASISWA");
         MAHASISWA_COLLECTION.printAll();
         next.run();
     }
@@ -112,6 +114,38 @@ public class MahasiswaDB {
         public Command(String title, BiConsumer<Runnable, Runnable> action) {
             this.title = title;
             this.action = action;
+        }
+    }
+
+    public static class findMahasiswa {
+        public static List<Mahasiswa> searchByGender(int genderSearch) throws MahasiswaNotFound {
+            Predicate<? super Mahasiswa> byGenderFilter = mahasiswa -> mahasiswa.gender == genderSearch;
+            return search(byGenderFilter);
+        }
+
+        public static List<Mahasiswa> searchByNim(String nimSearch) throws MahasiswaNotFound {
+            Predicate<? super Mahasiswa> byNimFilter = mahasiswa -> mahasiswa.nim.toUpperCase()
+                    .equals(nimSearch.toUpperCase());
+            return search(byNimFilter);
+        }
+
+        private static List<Mahasiswa> search(Predicate<? super Mahasiswa> filter) throws MahasiswaNotFound {
+            final List<Mahasiswa> result = Arrays.asList(MAHASISWA_COLLECTION.filter(filter).toArray(Mahasiswa[]::new));
+
+            if (result.size() > 0) {
+                Utils.drawSeparator();
+                System.out.println("DATA MAHASISWA DITEMUKAN!");
+                return result;
+            } else
+                throw new MahasiswaNotFound();
+        }
+
+        public static class MahasiswaNotFound extends Exception {
+            private static final long serialVersionUID = 1L;
+
+            public MahasiswaNotFound() {
+                super("Mohon maaf, Data yang dicari tidak ditemukan!");
+            }
         }
     }
 }
