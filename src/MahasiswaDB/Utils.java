@@ -14,6 +14,26 @@ public class Utils {
         drawSeparator(TEXT_MAXLENGTH);
     }
 
+    public static String padLeft(String text, String replacer, int maxLen) {
+        final int textLen = text.length();
+
+        if (textLen >= maxLen) {
+            return text;
+        }
+
+        final int replacerCount = maxLen - textLen;
+
+        return replacer.repeat(replacerCount) + text;
+    }
+
+    public static String padLeft(String text, String replacer) {
+        return padLeft(text, replacer, TEXT_MAXLENGTH);
+    }
+
+    public static String padLeft(String text) {
+        return padLeft(text, " ");
+    }
+
     public static String inputString(String message) {
         System.out.print(message);
         return userInput.nextLine();

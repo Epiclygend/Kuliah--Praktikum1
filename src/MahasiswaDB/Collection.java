@@ -22,4 +22,8 @@ public class Collection<T extends Collectable> {
     public void printAll() {
         collections.forEach(item -> item.print());
     }
+
+    public int length() {
+        return collections.size();
+    }
 }

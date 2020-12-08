@@ -92,6 +92,7 @@ public class MahasiswaDB {
             try {
                 final List<Mahasiswa> searchResult = findMahasiswa.searchByGender(genderSearch);
                 searchResult.forEach(Mahasiswa::print);
+                printTotalListed(searchResult.size());
             } catch (Exception e) {
                 System.err.println(e.getMessage());
             }
@@ -107,6 +108,7 @@ public class MahasiswaDB {
             try {
                 final List<Mahasiswa> searchResult = findMahasiswa.searchByNim(nimSearch);
                 searchResult.forEach(Mahasiswa::print);
+                printTotalListed(searchResult.size());
             } catch (Exception e) {
                 System.err.println(e.getMessage());
             }
@@ -118,12 +120,18 @@ public class MahasiswaDB {
             Utils.drawSeparator();
             System.out.println("DATA MAHASISWA");
             MAHASISWA_COLLECTION.printAll();
+            printTotalListed(MAHASISWA_COLLECTION.length());
             next.run();
         }
 
         public static void exit(Runnable next, Runnable exit) {
             Utils.drawSeparator();
             exit.run();
+        }
+
+        private static void printTotalListed(int count) {
+            Utils.drawSeparator();
+            System.out.println(Utils.padLeft("Jumlah Mahasiswa: " + count));
         }
     }
 
