@@ -16,15 +16,14 @@ public class Utils {
 
     public static String inputString(String message) {
         System.out.print(message);
-
-        return userInput.next();
+        return userInput.nextLine();
     }
 
     public static Integer inputInteger(String message) {
         System.out.print(message);
 
         try {
-            final Integer input = userInput.nextInt();
+            final Integer input = Integer.parseInt(userInput.nextLine());
             return input;
         } catch (Exception e) {
             System.err.println("Something error! Please try again!");

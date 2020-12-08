@@ -15,7 +15,6 @@ public class Mahasiswa implements Collectable {
     Date tglLahir;
     int gender = 0;
 
-    @Override
     public String getId() {
         return this.nim;
     }
