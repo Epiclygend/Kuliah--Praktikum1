@@ -9,41 +9,38 @@ import java.util.function.Predicate;
  */
 public class MahasiswaDB {
     final static Collection<Mahasiswa> MAHASISWA_COLLECTION = new Collection<Mahasiswa>();
-    final static List<Command> MENU = Arrays.asList(
-            new Command("Exit", MahasiswaDBCommand::exit),
-            new Command("Tambah Mahasiswa", MahasiswaDBCommand::createMahasiswa),
-            new Command("Hapus Mahasiswa", MahasiswaDBCommand::deleteMahasiswa),
-            new Command("Cari Mahasiswa (by NIM)", MahasiswaDBCommand::findByNim),
-            new Command("Cari Mahasiswa (by Gender)", MahasiswaDBCommand::findByGender),
-            new Command("Tampil Mahasiswa", MahasiswaDBCommand::showData)
-        );
+    final static Menu MAIN_MENU = new Menu(
+        new Command("Exit", MahasiswaDBCommand::exit),
+        new Command("Tambah Mahasiswa", MahasiswaDBCommand::createMahasiswa),
+        new Command("Hapus Mahasiswa", MahasiswaDBCommand::deleteMahasiswa),
+        new Command("Cari Mahasiswa", MahasiswaDBCommand::findMahasiswa),
+        new Command("Tampil Mahasiswa", MahasiswaDBCommand::showData)
+    );
+    final static Menu FIND_MAHASISWA_MENU = new Menu(
+        new Command("Back to main menu", FindMahasiswa::backToMainMenu),
+        new Command("by NIM", FindMahasiswa::byNim),
+        new Command("by Gender", FindMahasiswa::byGender)
+    );
 
     public static void main(String[] args) {
         MahasiswaDB.toMainMenu();
     }
 
     public static void toMainMenu() {
-        MahasiswaDB.showMenu();
+        Utils.drawSeparator();
+        System.out.println("Silahkan pilih menu berikut: (Mohon masukkan angka saja)");
+        MAIN_MENU.showMenu();
 
-        try {
-            final int selection = Utils.inputInteger("Pilih menu: ");
-
-            MahasiswaDB.MENU.get(selection).action.accept(MahasiswaDB::toMainMenu, MahasiswaDB::exitProgram);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Invalid Command! Please input available menu!");
-            MahasiswaDB.toMainMenu();
-        }
+        MAIN_MENU.getMenuSelection().action.accept(MahasiswaDB::toMainMenu, MahasiswaDB::exitProgram);
     }
 
     public static void exitProgram() {
         System.out.println("Program Exited!");
     }
 
-    public static void showMenu() {
+    private static void printTotalListed(int count) {
         Utils.drawSeparator();
-        System.out.println("Silahkan pilih menu berikut: (Mohon masukkan angka saja)");
-        for (int i = 0; i < MENU.size(); i++)
-            System.out.println(i + ". " + MENU.get(i).title);
+        System.out.println(Utils.padLeft("Jumlah Mahasiswa: " + count));
     }
 
     static public class MahasiswaDBCommand {
@@ -66,7 +63,7 @@ public class MahasiswaDB {
             final String nimSearch = Utils.inputString("Masukkan NIM untuk dihapus\t= ");
 
             try {
-                final List<Mahasiswa> searchResult = findMahasiswa.searchByNim(nimSearch);
+                final List<Mahasiswa> searchResult = FindMahasiswa.searchByNim(nimSearch);
                 searchResult.forEach(mahasiswa -> {
                     mahasiswa.print();
 
@@ -84,36 +81,13 @@ public class MahasiswaDB {
             next.run();
         }
 
-        public static void findByGender(Runnable next, Runnable exit) {
+        public static void findMahasiswa(Runnable next, Runnable exit) {
             Utils.drawSeparator();
-            System.out.println("CARI MAHASISWA DENGAN GENDER");
-            final int genderSearch = Utils.inputInteger("Masukkan kode gender untuk dicari (0/1)\t= ");
-
-            try {
-                final List<Mahasiswa> searchResult = findMahasiswa.searchByGender(genderSearch);
-                searchResult.forEach(Mahasiswa::print);
-                printTotalListed(searchResult.size());
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
-            }
-
-            next.run();
-        }
-
-        public static void findByNim(Runnable next, Runnable exit) {
+            System.out.println("CARI MAHASISWA");
             Utils.drawSeparator();
-            System.out.println("CARI MAHASISWA DENGAN NIM");
-            final String nimSearch = Utils.inputString("Masukkan NIM untuk dicari\t= ");
-
-            try {
-                final List<Mahasiswa> searchResult = findMahasiswa.searchByNim(nimSearch);
-                searchResult.forEach(Mahasiswa::print);
-                printTotalListed(searchResult.size());
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
-            }
-
-            next.run();
+            FIND_MAHASISWA_MENU.showMenu();
+            
+            FIND_MAHASISWA_MENU.getMenuSelection().action.accept(MahasiswaDB::toMainMenu, MahasiswaDB::exitProgram);
         }
 
         public static void showData(Runnable next, Runnable exit) {
@@ -128,14 +102,47 @@ public class MahasiswaDB {
             Utils.drawSeparator();
             exit.run();
         }
-
-        private static void printTotalListed(int count) {
-            Utils.drawSeparator();
-            System.out.println(Utils.padLeft("Jumlah Mahasiswa: " + count));
-        }
     }
 
-    public static class findMahasiswa {
+    public static class FindMahasiswa {
+        public static void backToMainMenu(Runnable next, Runnable exit) {
+            next.run();
+        }
+
+        public static void byGender(Runnable next, Runnable exit) {
+            Utils.drawSeparator();
+            System.out.println("CARI MAHASISWA DENGAN GENDER");
+            final int genderSearch = Utils.inputInteger("Masukkan kode gender untuk dicari (0/1)\t= ");
+            Utils.drawSeparator();
+
+            try {
+                final List<Mahasiswa> searchResult = FindMahasiswa.searchByGender(genderSearch);
+                searchResult.forEach(Mahasiswa::print);
+                printTotalListed(searchResult.size());
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
+
+            next.run();
+        }
+
+        public static void byNim(Runnable next, Runnable exit) {
+            Utils.drawSeparator();
+            System.out.println("CARI MAHASISWA DENGAN NIM");
+            final String nimSearch = Utils.inputString("Masukkan NIM untuk dicari\t= ");
+            Utils.drawSeparator();
+
+            try {
+                final List<Mahasiswa> searchResult = FindMahasiswa.searchByNim(nimSearch);
+                searchResult.forEach(Mahasiswa::print);
+                printTotalListed(searchResult.size());
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
+
+            next.run();
+        }
+
         public static List<Mahasiswa> searchByGender(int genderSearch) throws MahasiswaNotFound {
             Predicate<? super Mahasiswa> byGenderFilter = mahasiswa -> mahasiswa.gender == genderSearch;
             return search(byGenderFilter);
