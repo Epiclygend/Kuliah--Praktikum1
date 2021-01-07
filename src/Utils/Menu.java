@@ -28,7 +28,7 @@ public class Menu {
 
     public Command getMenuSelection() {
         try {
-            final int selection = Utils.inputInteger(chooseMenuTitle);
+            final int selection = Input.integer(chooseMenuTitle);
 
             return MENU.get(selection);
         } catch (IndexOutOfBoundsException e) {
