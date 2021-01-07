@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import Utils.Utils;
+import Utils.Collectable;
 
 public class Mahasiswa implements Collectable {
     String nim;

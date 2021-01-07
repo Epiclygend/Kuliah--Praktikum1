@@ -1,4 +1,4 @@
-package MahasiswaDB;
+package Utils;
 
 public interface Printable {
     public void print();

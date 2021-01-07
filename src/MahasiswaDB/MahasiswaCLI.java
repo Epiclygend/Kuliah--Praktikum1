@@ -1,6 +1,7 @@
 package MahasiswaDB;
 
 import MahasiswaDB.Mahasiswa.InvalidGenderChoice;
+import Utils.Utils;
 
 public class MahasiswaCLI {
     final public Mahasiswa mahasiswaInstance;

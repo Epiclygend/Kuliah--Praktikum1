@@ -1,4 +1,4 @@
-package MahasiswaDB;
+package Utils;
 
 import java.util.ArrayList;
 import java.util.function.Predicate;
