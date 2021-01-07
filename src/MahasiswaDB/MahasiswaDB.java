@@ -6,7 +6,6 @@ import java.util.function.Predicate;
 import Utils.Command;
 import Utils.Menu;
 import Utils.Utils;
-import Utils.Collection;
 
 /**
  * MahasiswaDB
