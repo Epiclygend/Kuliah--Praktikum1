@@ -2,6 +2,7 @@ package KaryawanDB;
 
 import KaryawanDB.Karyawan.GolonganDarah;
 import Utils.Input;
+import Utils.Input.RangeInput;
 
 public class KaryawanCLI {
     Karyawan karyawan;
@@ -12,12 +13,18 @@ public class KaryawanCLI {
 
     public static KaryawanCLI create() {
         return new KaryawanCLI(new Karyawan())
+            .setKodeKaryawan()
             .setNama()
             .setAlamat()
             .setTanggalLahir()
             .setGolonganDarah()
             .setStatusMenikah()
             .setJumlahAnak();
+    }
+
+    public KaryawanCLI setKodeKaryawan() {
+        this.karyawan.kode = Input.string("Masukkan Kode Karyawan\t= ");
+        return this;
     }
 
     public KaryawanCLI setNama() {
@@ -31,18 +38,33 @@ public class KaryawanCLI {
     };
 
     public KaryawanCLI setTanggalLahir () {
-        this.karyawan.tanggalLahir = Input.string("Masukkan Tanggal Lahir = ");
-        return this;
+        while (true) {
+            try {
+                System.out.println("Masukkan Tanggal Lahir");
+                this.karyawan.setTanggalLahir(
+                    Input.integer("\tYYYY\t= "),
+                    new RangeInput(1, 12).get("\tMM\t= "),
+                    new RangeInput(1, 31).get("\tDD\t= ")
+                );
+
+                if (Input.confirm("\tApakah anda yakin tanggal ini sudah benar? " + karyawan.getTanggalLahir()))
+                    return this;
+
+            } catch (Exception e) {
+                System.err.println("Terjadi kesalahan! Silahkan coba lagi...");
+            }
+        }
     };
     
     public KaryawanCLI setGolonganDarah () {
         while (true) {
-            String input = Input.string("Masukkan Golongan Darah = ");
+            String input = Input.string("Masukkan Golongan Darah = ").toUpperCase();
 
             try {
                 this.karyawan.golonganDarah = GolonganDarah.valueOf(input);
                 break;
             } catch (Exception e) {
+                System.err.println("Pilihan anda tidak tersedia, Silahkan coba lagi...");
                 continue;
             }
         }
