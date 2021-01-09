@@ -56,7 +56,7 @@ public class Karyawan implements HasId {
         System.out.println("Status Menikah\t= " + getStatusMenikah());
         System.out.println("Jumlah Anak\t= " + jumlahAnak);
         TextFormatter.drawSeparator();
-        System.out.println("Gaji Pokok\\tt= Rp " + gajiCalculator.getGajiPokok());
+        System.out.println("Gaji Pokok\t\t= Rp " + gajiCalculator.getGajiPokok());
         System.out.println("Tunjangan Istri/Suami\t= Rp " + gajiCalculator.getTunjanganSuamiIstri());
         System.out.println("Tunjangan Pegawai\t= Rp " + gajiCalculator.getTunjanganPegawai());
         System.out.println("Tunjangan Anak\t\t= Rp " + gajiCalculator.getTunjanganAnak());
