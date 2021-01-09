@@ -9,12 +9,12 @@ public class KaryawanCollection extends Collection<Karyawan> {
         TextFormatter.drawSeparator();
         getCollection().forEach(karyawan -> {
             System.out.println(
-                karyawan.kode + "\t" +
+                karyawan.kode + "\t\t" +
                 karyawan.nama + "\t" +
-                karyawan.golongan + "\t" +
-                karyawan.getAge() + "\t" +
-                karyawan.getStatusMenikah() + "\t" +
-                karyawan.jumlahAnak + "\t"
+                karyawan.golongan + "\t\t" +
+                karyawan.getAge() + "\t\t" +
+                karyawan.getStatusMenikah() + "\t\t" +
+                karyawan.jumlahAnak
             );
         });
     }
