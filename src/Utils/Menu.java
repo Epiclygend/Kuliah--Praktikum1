@@ -36,4 +36,14 @@ public class Menu {
             return getMenuSelection();
         }
     }
+
+    public Command get(int selection) {
+        while (true) {
+            try {
+                return MENU.get(selection);
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Invalid Command! Please input available menu!");
+            }
+        }
+    }
 }
