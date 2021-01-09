@@ -1,6 +1,7 @@
 package Utils;
 
 import java.util.Scanner;
+import java.util.function.Function;
 
 public class Input {
     public static Scanner instance = new Scanner(System.in);
@@ -32,6 +33,26 @@ public class Input {
 
             default:
                 return Input.confirm(message);
+        }
+    }
+
+    public static class RangeInput extends InputValidator<Integer> {
+        int min;
+        int max;
+
+        public RangeInput(int min, int max) {
+            this.min = min;
+            this.max = max;
+        }
+
+        @Override
+        protected boolean validate(Integer value) {
+            return value >= min && value <= max;
+        }
+
+        @Override
+        protected Function<String, Integer> getInputMethod() {
+            return Input::integer;
         }
     }
 }
