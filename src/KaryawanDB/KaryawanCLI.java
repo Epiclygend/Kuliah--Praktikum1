@@ -27,7 +27,7 @@ public class KaryawanCLI {
     }
 
     public KaryawanCLI setKodeKaryawan() {
-        this.karyawan.kode = Input.string("Masukkan Kode Karyawan\t= ");
+        this.karyawan.kode = Input.string("Masukkan Kode Karyawan\t= ").toUpperCase();
         return this;
     }
 

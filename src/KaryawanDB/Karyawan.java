@@ -12,7 +12,7 @@ public class Karyawan implements HasId {
         A, B, C, D;
     }
 
-    public String kode = UUID.randomUUID().toString();
+    public String kode = UUID.randomUUID().toString().toUpperCase();
     public String nama = "-";
     public String alamat = "-";
     private LocalDate tanggalLahir = LocalDate.MIN;
