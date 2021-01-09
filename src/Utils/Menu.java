@@ -16,6 +16,10 @@ public class Menu {
         Arrays.asList(listOfMenu).stream().forEach(menu -> MENU.add(menu));
     }
 
+    public void register(Command command) {
+        MENU.add(command);
+    }
+
     public void register(String title, BiConsumer<Runnable, Runnable> action) {
         MENU.add(new Command(title, action));
     }
