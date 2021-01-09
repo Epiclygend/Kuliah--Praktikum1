@@ -12,14 +12,18 @@ public class KaryawanCLI {
     }
 
     public static KaryawanCLI create() {
-        return new KaryawanCLI(new Karyawan())
+        final KaryawanCLI instance = new KaryawanCLI(new Karyawan())
             .setKodeKaryawan()
             .setNama()
             .setAlamat()
             .setTanggalLahir()
             .setGolonganDarah()
-            .setStatusMenikah()
-            .setJumlahAnak();
+            .setStatusMenikah();
+
+        if (instance.karyawan.statusMenikah)
+            instance.setJumlahAnak();
+        
+        return instance;
     }
 
     public KaryawanCLI setKodeKaryawan() {
@@ -47,7 +51,8 @@ public class KaryawanCLI {
                     new RangeInput(1, 31).get("\tDD\t= ")
                 );
 
-                if (Input.confirm("\tApakah anda yakin tanggal ini sudah benar? " + karyawan.getTanggalLahir()))
+                System.out.println("\tApakah anda yakin tanggal ini sudah benar?");
+                if (Input.confirm("\t" + karyawan.getTanggalLahir()))
                     return this;
 
             } catch (Exception e) {

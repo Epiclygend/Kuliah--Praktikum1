@@ -46,6 +46,6 @@ public class Karyawan implements HasId {
         System.out.println("Tanggal Lahir\t= " + getTanggalLahir());
         System.out.println("Golongan Darah\t= " + golonganDarah);
         System.out.println("Status Menikah\t= " + getStatusMenikah());
-        System.out.println("Jumlah Anaka\t= " + jumlahAnak);
+        System.out.println("Jumlah Anak\t= " + jumlahAnak);
     }
 }
