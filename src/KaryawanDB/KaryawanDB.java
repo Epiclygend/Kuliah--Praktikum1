@@ -25,8 +25,8 @@ public class KaryawanDB {
 
     public static void mainMenu() {
         TextFormatter.drawSeparator();
-        System.out.println(SELECT_MENU_MSG);
         System.out.println();
+        System.out.println(SELECT_MENU_MSG);
         MENU.showMenu();
         System.out.println();
         
