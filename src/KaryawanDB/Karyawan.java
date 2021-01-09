@@ -8,7 +8,7 @@ import java.util.UUID;
 import Utils.TextFormatter;
 
 public class Karyawan implements HasId {
-    public enum Golongan {
+    public static enum Golongan {
         A, B, C, D;
     }
 
