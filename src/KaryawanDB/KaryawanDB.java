@@ -26,7 +26,9 @@ public class KaryawanDB {
     public static void mainMenu() {
         TextFormatter.drawSeparator();
         System.out.println(SELECT_MENU_MSG);
+        System.out.println();
         MENU.showMenu();
+        System.out.println();
         
         final Command selection = MENU.getMenuSelection();
 
@@ -41,7 +43,15 @@ public class KaryawanDB {
     }
 
     public static void addKaryawan(Runnable next, Runnable exit) {
-        karyawanCollection.add(KaryawanCLI.create().karyawan);
+        while (true) {
+            try {
+                karyawanCollection.add(KaryawanCLI.create().karyawan);
+                break;
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+                System.out.println("Silahkan coba lagi...");
+            }
+        }
 
         construcNextAction(next, exit, new Command("Tambah Data Lagi", KaryawanDB::addKaryawan));
     }
@@ -95,8 +105,16 @@ public class KaryawanDB {
         }
 
         TextFormatter.drawSeparator();
+        System.out.println();
         System.out.println(SELECT_MENU_MSG);
         nextAction.showMenu();
-        nextAction.getMenuSelection().action.accept(next, exit);
+        System.out.println();
+
+        final Command selection = nextAction.getMenuSelection();
+
+        TextFormatter.drawSeparator();
+        System.out.println(selection.title.toUpperCase());
+        TextFormatter.drawSeparator();
+        selection.action.accept(next, exit);
     }
 }

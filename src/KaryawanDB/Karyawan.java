@@ -45,6 +45,7 @@ public class Karyawan implements HasId {
     }
 
     public void print() {
+        System.out.println();
         TextFormatter.drawSeparator();
         System.out.println("DATA KARYAWAN");
         TextFormatter.drawSeparator();
