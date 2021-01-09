@@ -13,7 +13,7 @@ public abstract class Collection<T extends HasId> {
     public void add(T item) {
         final Optional<T> itemWithSameId = find(item.getId());
 
-        if (itemWithSameId.isPresent()) repository.add(item);
+        if (itemWithSameId.isEmpty()) repository.add(item);
         else throw new NullPointerException("Item with same code is already exists!");
     }
 
