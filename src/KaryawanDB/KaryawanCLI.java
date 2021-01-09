@@ -1,6 +1,6 @@
 package KaryawanDB;
 
-import KaryawanDB.Karyawan.GolonganDarah;
+import KaryawanDB.Karyawan.Golongan;
 import Utils.Input;
 import Utils.Input.RangeInput;
 
@@ -17,7 +17,7 @@ public class KaryawanCLI {
             .setNama()
             .setAlamat()
             .setTanggalLahir()
-            .setGolonganDarah()
+            .setGolongan()
             .setStatusMenikah();
 
         if (instance.karyawan.statusMenikah)
@@ -61,12 +61,12 @@ public class KaryawanCLI {
         }
     };
     
-    public KaryawanCLI setGolonganDarah () {
+    public KaryawanCLI setGolongan () {
         while (true) {
-            String input = Input.string("Masukkan Golongan Darah = ").toUpperCase();
+            String input = Input.string("Masukkan Golongan\t= ").toUpperCase();
 
             try {
-                this.karyawan.golonganDarah = GolonganDarah.valueOf(input);
+                this.karyawan.golongan = Golongan.valueOf(input);
                 break;
             } catch (Exception e) {
                 System.err.println("Pilihan anda tidak tersedia, Silahkan coba lagi...");

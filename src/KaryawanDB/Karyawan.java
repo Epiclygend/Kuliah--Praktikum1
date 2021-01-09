@@ -5,16 +5,18 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
+import Utils.TextFormatter;
+
 public class Karyawan implements HasId {
-    public enum GolonganDarah {
-        A, B, AB, O;
+    public enum Golongan {
+        A, B, C, D;
     }
 
     public String kode = UUID.randomUUID().toString();
     public String nama = "";
     public String alamat = "";
     private LocalDate tanggalLahir = LocalDate.MIN;
-    public GolonganDarah golonganDarah = GolonganDarah.A;
+    public Golongan golongan = Golongan.A;
     public boolean statusMenikah = false;
     public byte jumlahAnak = 0;
 
@@ -42,11 +44,13 @@ public class Karyawan implements HasId {
     }
 
     public void print() {
+        TextFormatter.drawSeparator();
         System.out.println("Nama\t\t= " + nama);
         System.out.println("Alamat\t\t= " + alamat);
         System.out.println("Tanggal Lahir\t= " + getTanggalLahir());
-        System.out.println("Golongan Darah\t= " + golonganDarah);
+        System.out.println("Golongan Darah\t= " + golongan);
         System.out.println("Status Menikah\t= " + getStatusMenikah());
         System.out.println("Jumlah Anak\t= " + jumlahAnak);
+        TextFormatter.drawSeparator();
     }
 }
