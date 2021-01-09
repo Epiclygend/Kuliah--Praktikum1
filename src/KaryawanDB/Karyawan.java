@@ -3,13 +3,14 @@ package KaryawanDB;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 public class Karyawan implements HasId {
     public enum GolonganDarah {
         A, B, AB, O;
     }
 
-    public String kode = "";
+    public String kode = UUID.randomUUID().toString();
     public String nama = "";
     public String alamat = "";
     private LocalDate tanggalLahir = LocalDate.MIN;

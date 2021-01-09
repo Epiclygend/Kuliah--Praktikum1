@@ -1,6 +1,7 @@
 package KaryawanDB;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 interface HasId {
     public String getId();
@@ -10,14 +11,16 @@ public abstract class Collection<T extends HasId> {
     private ArrayList<T> repository = new ArrayList<>();
 
     public void add(T item) {
-        repository.add(item);
+        final Optional<T> itemWithSameId = find(item.getId());
+
+        if (itemWithSameId.isPresent()) repository.add(item);
+        else throw new NullPointerException("Item with same code is already exists!");
     }
 
-    public T find(String id) {
+    public Optional<T> find(String id) {
         return repository.stream()
             .filter((item) -> item.getId().equals(id))
-            .findFirst()
-            .get();
+            .findFirst();
     }
 
     public void delete(String id) {
